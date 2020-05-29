@@ -9,17 +9,18 @@ public class Modele {
 	private boolean rectangleBtn;
 	private boolean lineBtn;
 		
-	private Controller ctrl;
 	private Color couleur;
 	
-	public Modele(Controller ctrl, boolean selectmoveBtn, boolean ellipseBtn, 
+	public Modele(boolean selectmoveBtn, boolean ellipseBtn, 
 					boolean rectangleBtn, boolean lineBtn) {
-		this.ctrl = ctrl;
+
 		this.selectmoveBtn = selectmoveBtn;
 		this.ellipseBtn = ellipseBtn;
 		this.rectangleBtn = rectangleBtn;
 		this.lineBtn = lineBtn;
 	}
+	
+	//color
 	
 	public Color getColor() {
 		return this.couleur;
@@ -29,6 +30,8 @@ public class Modele {
 		this.couleur = c;
 	}
 	
+	//select/move
+	
 	public boolean getSelectmoveBtn() {
 		return this.selectmoveBtn;
 	}
@@ -36,6 +39,8 @@ public class Modele {
 	public void setSelectmoveBtn(boolean smBtn) {
 		this.selectmoveBtn = smBtn;
 	}
+	
+	//ellipse
 	
 	public boolean getEllipseBtn() {
 		return this.ellipseBtn;
@@ -45,6 +50,8 @@ public class Modele {
 		this.ellipseBtn = eBtn;
 	}
 	
+	//rectangle
+	
 	public boolean getRectangleBtn() {
 		return this.rectangleBtn;
 	}
@@ -52,6 +59,8 @@ public class Modele {
 	public void setRectangleBtn(boolean rBtn) {
 		this.rectangleBtn = rBtn;
 	}
+	
+	//ligne
 	
 	public boolean getLineBtn() {
 		return this.lineBtn;

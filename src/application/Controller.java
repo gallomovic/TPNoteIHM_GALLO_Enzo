@@ -62,13 +62,20 @@ public class Controller
 	
 	
 
-	
-	
+	/**
+	 * Constructeur
+	 */
 	public Controller() {
-		model = new Modele(this, false, false, false, false);
+		model = new Modele(false, false, false, false);
 	}
 
-	
+	/**
+	 * Méthode qui permet de creer un rectangle
+	 * @param x
+	 * @param y
+	 * @param array
+	 * @return rectangle
+	 */
 	private Rectangle creerRectangle(double x, double y, ArrayList<Rectangle> array) {
 		Rectangle r = new Rectangle(x,y,100,100);
 		r.setFill(colorpicker.getValue());
@@ -77,6 +84,13 @@ public class Controller
 		return r;
 	}
 	
+	/**
+	 * Méthode qui permet de creer une ellipse
+	 * @param x
+	 * @param y
+	 * @param array
+	 * @return ellipse
+	 */
 	private Ellipse creerEllipse(double x, double y, ArrayList<Ellipse> array) {
 		Ellipse e = new Ellipse(x,y,100,50);
 		e.setFill(colorpicker.getValue());
@@ -86,6 +100,15 @@ public class Controller
 		return e;
 	}
 	
+	/**
+	 * Méthode qui permet de creer une ligne
+	 * @param xi
+	 * @param yi
+	 * @param xf
+	 * @param yf
+	 * @param array
+	 * @return line
+	 */
 	private Line creerLine(double xi, double yi, double xf, double yf, ArrayList<Line> array) {
 		Line l = new Line(xi,yi,xf,yf);
 		l.setStroke(colorpicker.getValue());
@@ -93,25 +116,50 @@ public class Controller
 		return l;
 	}
 	
+	
+	/**
+	 * Methode qui permet de tracer un rectangle
+	 * @param r
+	 * @param x
+	 * @param y
+	 * @return rectangle
+	 */
 	private Rectangle traceRectangle(Rectangle r,double x, double y) {
 		r.setWidth(x);
 		r.setHeight(y);
 		return r;
 	}
 	
+	/**
+	 * Methode qui permet de tracer une ellipse
+	 * @param e
+	 * @param x
+	 * @param y
+	 * @return ellipse
+	 */
 	private Ellipse traceEllipse(Ellipse e,double x, double y) {
 		e.setRadiusX(x);
 		e.setRadiusY(y);
 		return e;
 	}
 	
+	/**
+	 * Methode qui permet de tracer une ligne
+	 * @param l
+	 * @param x
+	 * @param y
+	 * @return line
+	 */
 	private Line traceLine(Line l, double x, double y) {
 		l.setEndX(x);
 		l.setEndY(y);
 		return l;
 	}
 	
-	
+	/**
+	 * Methode qui permet d'activer le radio bouton select/move  
+	 * @param event
+	 */
 	private void clickS(MouseEvent event) {
 		model.setSelectmoveBtn(true);
 		model.setEllipseBtn(false);
@@ -119,6 +167,10 @@ public class Controller
 		model.setLineBtn(false);
 	}
 	
+	/**
+	 * Methode qui permet d'activer le radio bouton rectangle  
+	 * @param event
+	 */
 	private void clickR(MouseEvent event) {
 		model.setSelectmoveBtn(false);
 		model.setEllipseBtn(false);
@@ -126,6 +178,10 @@ public class Controller
 		model.setLineBtn(false);
 	}
 	
+	/**
+	 * Methode qui permet d'activer le radio bouton ellipse
+	 * @param event
+	 */
 	private void clickE(MouseEvent event) {
 		model.setSelectmoveBtn(false);
 		model.setEllipseBtn(true);
@@ -133,6 +189,10 @@ public class Controller
 		model.setLineBtn(false);
 	}
 	
+	/**
+	 * Methode qui permet d'activer le radio bouton ligne
+	 * @param event
+	 */
 	private void clickL(MouseEvent event) {
 		model.setSelectmoveBtn(false);
 		model.setEllipseBtn(false);
@@ -145,15 +205,6 @@ public class Controller
 	@FXML
 	public void initialize()
     {
-		btn = new ToggleGroup();
-		
-		selectmoveBtn.setToggleGroup(btn);
-		ellipseBtn.setToggleGroup(btn);
-		rectangleBtn.setToggleGroup(btn);
-		lineBtn.setToggleGroup(btn);
-		
-
-		selectmoveBtn.setSelected(true);
 		
 		ArrayList<Rectangle> aR = new ArrayList<Rectangle>();
 		ArrayList<Ellipse> aE = new ArrayList<Ellipse>();
@@ -165,6 +216,8 @@ public class Controller
 		ArrayList<Rectangle> stockR = new ArrayList<Rectangle>();
 		ArrayList<Ellipse> stockE = new ArrayList<Ellipse>();
 		ArrayList<Line> stockL = new ArrayList<Line>();
+		
+		//eventHandler pour les radio boutons
 		
 		ellipseBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
 			@Override
@@ -196,6 +249,8 @@ public class Controller
 		
 		
 
+		//eventHandler pour le pane
+		//quand on presse la souris
 		pane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent mouseEvent) {
@@ -270,7 +325,7 @@ public class Controller
 			}
 		});
 		
-		
+		//quand on drag & drop les figures
 		pane.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent mouseEvent) {
