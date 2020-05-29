@@ -82,17 +82,15 @@ public class Controller
 		e.setFill(colorpicker.getValue());
 		e.setStroke(Color.BLACK);
 		e.setStrokeWidth(5);
-		
 		array.add(e);
 		return e;
 	}
 	
-	private Line creerLine(double xi, double yi, double xf, double yf) {
-		Line l = new Line();
-		l.setStartX(xi);
-		l.setStartY(yi);
-		l.setEndX(xf);
-		l.setEndY(yf);
+	private Line creerLine(double xi, double yi, double xf, double yf, ArrayList<Line> array) {
+		Line l = new Line(xi,yi,xf,yf);
+		l.setFill(colorpicker.getValue());
+		l.setStroke(Color.BLACK);
+		array.add(l);
 		return l;
 	}
 	
@@ -106,6 +104,12 @@ public class Controller
 		e.setCenterX(x);
 		e.setCenterY(y);
 		return e;
+	}
+	
+	private Line traceLine(Line l, double x, double y) {
+		l.setEndX(x);
+		l.setEndY(y);
+		return l;
 	}
 	
 	private void clickS(MouseEvent event) {
@@ -186,7 +190,6 @@ public class Controller
 			}
 		});
 
-		//setOnMouseDragged(new EventHandler<MouseEvent>()
 		pane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent mouseEvent) {
@@ -202,7 +205,17 @@ public class Controller
 					Ellipse e = creerEllipse(mouseEvent.getX(),mouseEvent.getY(),aE);
 					traceEllipse(e,mouseEvent.getX(),mouseEvent.getY());
 					aE.add(e);
+					aX.add(mouseEvent.getX());
+					aY.add(mouseEvent.getY());
 					pane.getChildren().add(e);
+				}
+				if(model.getLineBtn() == true) {
+					Line l = creerLine(0,0,mouseEvent.getX(),mouseEvent.getY(),aL);
+					traceLine(l,mouseEvent.getX(),mouseEvent.getY());
+					aL.add(l);
+					aX.add(mouseEvent.getX());
+					aY.add(mouseEvent.getY());
+					pane.getChildren().add(l);
 				}
 					
 			}
@@ -212,9 +225,20 @@ public class Controller
 		pane.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-								
-				traceRectangle(aR.get(aR.size()-1), mouseEvent.getX() - (aX.get(aX.size()-1) ),
-						mouseEvent.getY() - (aY.get(aY.size()-1)));
+				if(model.getRectangleBtn() == true) {
+					traceRectangle(aR.get(aR.size()-1), mouseEvent.getX() - (aX.get(aX.size()-1) ),
+							mouseEvent.getY() - (aY.get(aY.size()-1)));
+				}
+				if(model.getEllipseBtn() == true) {
+					traceEllipse(aE.get(aE.size()-1), mouseEvent.getX() - (aX.get(aX.size()-1) ),
+							mouseEvent.getY() - (aY.get(aY.size()-1)));
+				}
+				if(model.getLineBtn() == true) {
+					traceLine(aL.get(aL.size()-1), mouseEvent.getX() - (aX.get(aX.size()-1) ),
+							mouseEvent.getY() - (aY.get(aY.size()-1)));
+				}
+				
+
 			}
 		});
 		
