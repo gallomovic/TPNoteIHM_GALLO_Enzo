@@ -111,6 +111,7 @@ public class Controller
 		return l;
 	}
 	
+	
 	private void clickS(MouseEvent event) {
 		model.setSelectmoveBtn(true);
 		model.setEllipseBtn(false);
@@ -161,6 +162,10 @@ public class Controller
 		ArrayList<Double> aX = new ArrayList<Double>();
 		ArrayList<Double> aY = new ArrayList<Double>();
 		
+		ArrayList<Rectangle> stockR = new ArrayList<Rectangle>();
+		ArrayList<Ellipse> stockE = new ArrayList<Ellipse>();
+		ArrayList<Line> stockL = new ArrayList<Line>();
+		
 		ellipseBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent mouseEvent) {
@@ -182,12 +187,14 @@ public class Controller
 			}
 		});
 		
-		colorpicker.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+		selectmoveBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				//clickC(mouseEvent);
+				clickS(mouseEvent);
 			}
 		});
+		
+		
 
 		pane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 			@Override
@@ -196,25 +203,67 @@ public class Controller
 					Rectangle r = creerRectangle(mouseEvent.getX(),mouseEvent.getY(),aR);
 					traceRectangle(r,mouseEvent.getX(),mouseEvent.getY());
 					aR.add(r);
+					stockR.add(r);
 					aX.add(mouseEvent.getX());
 					aY.add(mouseEvent.getY());
+					
+					
+					r.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+							if (model.getSelectmoveBtn()) {
+								r.setHeight(r.getHeight()*1.1);
+								r.setWidth(r.getWidth()*1.1);
+							}
+						}
+					});
+					
+					
 					pane.getChildren().add(r);
+					
 				}
 				if(model.getEllipseBtn() == true) {
 					Ellipse e = creerEllipse(mouseEvent.getX(),mouseEvent.getY(),aE);
 					traceEllipse(e,mouseEvent.getX(),mouseEvent.getY());
 					aE.add(e);
+					stockE.add(e);
 					aX.add(mouseEvent.getX());
 					aY.add(mouseEvent.getY());
+					
+					e.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+							if (model.getSelectmoveBtn()) {
+								e.setRadiusX(e.getRadiusX()*1.1);
+								e.setRadiusY(e.getRadiusY()*1.1);
+							}
+						}
+					});
+										
 					pane.getChildren().add(e);
+					
 				}
 				if(model.getLineBtn() == true) {
 					Line l = creerLine(mouseEvent.getX(),mouseEvent.getY()
 							,mouseEvent.getX(),mouseEvent.getY(),aL);
 					traceLine(l,mouseEvent.getX(),mouseEvent.getY());
 					aL.add(l);
+					stockL.add(l);
 					aX.add(mouseEvent.getX());
 					aY.add(mouseEvent.getY());
+					
+					l.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+							if (model.getSelectmoveBtn()) {
+								l.setStartX(l.getStartX()*1.1);
+								l.setStartY(l.getStartY()*1.1);	
+								l.setEndX(l.getEndX()*1.1);
+								l.setEndY(l.getEndY()*1.1);
+							}
+						}
+					});
+					
 					pane.getChildren().add(l);
 				}
 					
@@ -228,19 +277,103 @@ public class Controller
 				if(model.getRectangleBtn() == true) {
 					traceRectangle(aR.get(aR.size()-1), mouseEvent.getX() - (aX.get(aX.size()-1) ),
 							mouseEvent.getY() - (aY.get(aY.size()-1)));
+					
+					
+					(aR.get(aR.size()-1)).addEventHandler(MouseEvent.MOUSE_DRAGGED, 
+														new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+						if (model.getSelectmoveBtn()) {
+							(aR.get(aR.size()-1)).setWidth(mouseEvent.getX());
+							(aR.get(aR.size()-1)).setHeight(mouseEvent.getY());
+						}
+						}
+					});
+					
+					
+					deleteBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+							pane.getChildren().remove(aR.get(aR.size()-1));
+						}
+					});
+							
+					
+					cloneBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+							//je n'ai pas reussi
+						}
+					});
+					
 				}
 				if(model.getEllipseBtn() == true) {
 					traceEllipse(aE.get(aE.size()-1), mouseEvent.getX(),
 							mouseEvent.getY());
+					
+					(aE.get(aE.size()-1)).addEventHandler(MouseEvent.MOUSE_DRAGGED, 
+							new EventHandler<MouseEvent>(){
+							@Override
+							public void handle(MouseEvent mouseEvent) {
+								if (model.getSelectmoveBtn()) {
+									(aE.get(aE.size()-1)).setCenterX(mouseEvent.getX());
+									(aE.get(aE.size()-1)).setCenterY(mouseEvent.getY());
+								}
+							}
+					});
+					
+					deleteBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+							pane.getChildren().remove(aE.get(aE.size()-1));
+						}
+					});
+					
+					cloneBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+							//je n'ai pas reussi
+						}
+					});
+					
 				}
 				if(model.getLineBtn() == true) {
 					traceLine(aL.get(aL.size()-1), mouseEvent.getX(),
 							mouseEvent.getY());
+					
+					(aL.get(aL.size()-1)).addEventHandler(MouseEvent.MOUSE_DRAGGED, 
+							new EventHandler<MouseEvent>(){
+							@Override
+							public void handle(MouseEvent mouseEvent) {
+								if (model.getSelectmoveBtn()) {
+									(aL.get(aL.size()-1)).setTranslateX(mouseEvent.getX());
+									(aL.get(aL.size()-1)).setTranslateY(mouseEvent.getY());
+								}
+							}
+					});
+					
+					deleteBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+							pane.getChildren().remove(aL.get(aL.size()-1));
+						}
+					});
+					
+					cloneBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+							//je n'ai pas reussi
+						}
+					});
+					
+					
 				}
 				
 
 			} 
 		});
 		
+		
 		}
 }
+
