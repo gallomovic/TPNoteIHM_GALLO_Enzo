@@ -102,7 +102,6 @@ public class Controller
 		return r;
 	}
 	
-	
 	private Ellipse traceEllipse(Ellipse e,double x, double y) {
 		e.setCenterX(x);
 		e.setCenterY(y);
@@ -156,6 +155,9 @@ public class Controller
 		ArrayList<Ellipse> aE = new ArrayList<Ellipse>();
 		ArrayList<Line> aL = new ArrayList<Line>();
 		
+		ArrayList<Double> aX = new ArrayList<Double>();
+		ArrayList<Double> aY = new ArrayList<Double>();
+		
 		ellipseBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent mouseEvent) {
@@ -184,14 +186,16 @@ public class Controller
 			}
 		});
 
-		
-		pane.setOnMouseDragged(new EventHandler<MouseEvent>(){
+		//setOnMouseDragged(new EventHandler<MouseEvent>()
+		pane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent mouseEvent) {
 				if(model.getRectangleBtn() == true) {
 					Rectangle r = creerRectangle(mouseEvent.getX(),mouseEvent.getY(),aR);
 					traceRectangle(r,mouseEvent.getX(),mouseEvent.getY());
 					aR.add(r);
+					aX.add(mouseEvent.getX());
+					aY.add(mouseEvent.getY());
 					pane.getChildren().add(r);
 				}
 				if(model.getEllipseBtn() == true) {
@@ -200,17 +204,21 @@ public class Controller
 					aE.add(e);
 					pane.getChildren().add(e);
 				}
-				
-				
-				
+					
 			}
 		});
 		
 		
+		pane.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>(){
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+								
+				traceRectangle(aR.get(aR.size()-1), mouseEvent.getX() - (aX.get(aX.size()-1) ),
+						mouseEvent.getY() - (aY.get(aY.size()-1)));
+			}
+		});
 		
-		
-		
-		
+			
 		
 		
 		}
