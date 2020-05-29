@@ -88,8 +88,7 @@ public class Controller
 	
 	private Line creerLine(double xi, double yi, double xf, double yf, ArrayList<Line> array) {
 		Line l = new Line(xi,yi,xf,yf);
-		l.setFill(colorpicker.getValue());
-		l.setStroke(Color.BLACK);
+		l.setStroke(colorpicker.getValue());
 		array.add(l);
 		return l;
 	}
@@ -101,8 +100,8 @@ public class Controller
 	}
 	
 	private Ellipse traceEllipse(Ellipse e,double x, double y) {
-		e.setCenterX(x);
-		e.setCenterY(y);
+		e.setRadiusX(x);
+		e.setRadiusY(y);
 		return e;
 	}
 	
@@ -210,7 +209,8 @@ public class Controller
 					pane.getChildren().add(e);
 				}
 				if(model.getLineBtn() == true) {
-					Line l = creerLine(0,0,mouseEvent.getX(),mouseEvent.getY(),aL);
+					Line l = creerLine(mouseEvent.getX(),mouseEvent.getY()
+							,mouseEvent.getX(),mouseEvent.getY(),aL);
 					traceLine(l,mouseEvent.getX(),mouseEvent.getY());
 					aL.add(l);
 					aX.add(mouseEvent.getX());
@@ -230,20 +230,17 @@ public class Controller
 							mouseEvent.getY() - (aY.get(aY.size()-1)));
 				}
 				if(model.getEllipseBtn() == true) {
-					traceEllipse(aE.get(aE.size()-1), mouseEvent.getX() - (aX.get(aX.size()-1) ),
-							mouseEvent.getY() - (aY.get(aY.size()-1)));
+					traceEllipse(aE.get(aE.size()-1), mouseEvent.getX(),
+							mouseEvent.getY());
 				}
 				if(model.getLineBtn() == true) {
-					traceLine(aL.get(aL.size()-1), mouseEvent.getX() - (aX.get(aX.size()-1) ),
-							mouseEvent.getY() - (aY.get(aY.size()-1)));
+					traceLine(aL.get(aL.size()-1), mouseEvent.getX(),
+							mouseEvent.getY());
 				}
 				
 
 			}
 		});
-		
-			
-		
 		
 		}
 }
